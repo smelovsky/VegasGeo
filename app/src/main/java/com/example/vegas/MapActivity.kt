@@ -35,6 +35,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.*
+import androidx.compose.ui.res.painterResource
 
 
 @AndroidEntryPoint
@@ -199,7 +200,7 @@ class MapActivity : ComponentActivity() {
                             ) {
                                 IconButton(onClick = { zoom.value = zoomIn() } ) {
                                     Icon(
-                                        imageVector = Icons.Filled.KeyboardArrowDown,
+                                        painter = painterResource(R.drawable.baseline_zoom_in_24),
                                         contentDescription = "ZoomIn",
                                         tint = Color.Black,
                                         modifier = Modifier.size(60.dp).padding(4.dp)
@@ -217,7 +218,7 @@ class MapActivity : ComponentActivity() {
                             ) {
                                 IconButton(onClick = { zoom.value = zoomOut() } ) {
                                     Icon(
-                                        imageVector = Icons.Filled.KeyboardArrowUp,
+                                        painter = painterResource(R.drawable.baseline_zoom_out_24),
                                         contentDescription = "ZoomOut",
                                         tint = Color.Black,
                                         modifier = Modifier.size(60.dp).padding(4.dp)
