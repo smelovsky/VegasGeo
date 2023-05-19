@@ -15,8 +15,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -42,16 +40,14 @@ import androidx.compose.ui.res.painterResource
 class MapActivity : ComponentActivity() {
 
     lateinit var wakeLockPowerManager: PowerManager.WakeLock
-    lateinit var mapApi: MapApi
+    var mapApi: MapApi
 
     init {
         mapApi = if (viewModel.currentMap == viewModel.maps[0] ) { viewModel.mapKitApi }
         else { viewModel.openStreetMapApi }
     }
 
-    class LocationReceiver(updateMap: () -> Unit) : BroadcastReceiver() {
-
-        val updateMap = updateMap
+    class LocationReceiver(val updateMap: () -> Unit) : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
 
@@ -118,7 +114,7 @@ class MapActivity : ComponentActivity() {
         setContent {
 
             VegasTheme(viewModel.currentTheme == 1) {
-                androidx.compose.material3.Surface(
+                Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
@@ -135,7 +131,7 @@ class MapActivity : ComponentActivity() {
         super.onPause()
 
         if (viewModel.wakeLock) {
-            //wakeLockPowerManager.release()
+            wakeLockPowerManager.release()
         }
     }
 
@@ -168,9 +164,9 @@ class MapActivity : ComponentActivity() {
     @Composable
     fun MapScreen(onBack: () -> Unit, mapInit:(context:Context, title:String) -> View, zoomOut: () -> Float, zoomIn: () -> Float) {
 
-        var zoom = remember { mutableStateOf(15.0F) }
+        val zoom = remember { mutableStateOf(15.0F) }
 
-        androidx.compose.material3.Scaffold(
+        Scaffold(
             topBar = { MapTopBar(onBack) },
         ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
@@ -245,12 +241,12 @@ fun MapTopBar(onBack: () -> Unit) {
         backgroundColor = MaterialTheme.colorScheme.background,
         title = {
             Row() {
-                androidx.compose.material3.Text(
+                Text(
                     text = stringResource(R.string.app_name),
                 )
                 if (viewModel.trackEnabled) {
                     Spacer(modifier = Modifier.width(20.dp))
-                    androidx.compose.material3.Text(text = "(${stringResource(R.string.tracking)})",
+                    Text(text = "(${stringResource(R.string.tracking)})",
                         color = Color.Red
                     )
                 }
@@ -258,19 +254,19 @@ fun MapTopBar(onBack: () -> Unit) {
         },
 
         actions = {
-            androidx.compose.material3.IconButton(onClick = {
+            IconButton(onClick = {
                 AppFunction.exit.run()
                 onBack()
             } ) {
-                androidx.compose.material3.Icon(
+                Icon(
                     imageVector = Icons.Filled.ExitToApp,
                     contentDescription = "Exit",
                 )
             }
         },
         navigationIcon = {
-            androidx.compose.material3.IconButton(onClick = { onBack() } ) {
-                androidx.compose.material3.Icon(
+            IconButton(onClick = { onBack() } ) {
+                Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
                 )
