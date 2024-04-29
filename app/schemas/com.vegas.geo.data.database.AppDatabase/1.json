@@ -1,0 +1,121 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "5d6c6cd12438e92bb7757b7d505d498d",
+    "entities": [
+      {
+        "tableName": "location",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`location_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `track_id` INTEGER NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, FOREIGN KEY(`track_id`) REFERENCES `track`(`track_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "locationId",
+            "columnName": "location_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackId",
+            "columnName": "track_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "location_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_location_location_id",
+            "unique": false,
+            "columnNames": [
+              "location_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_location_location_id` ON `${TABLE_NAME}` (`location_id`)"
+          },
+          {
+            "name": "index_location_track_id",
+            "unique": false,
+            "columnNames": [
+              "track_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_location_track_id` ON `${TABLE_NAME}` (`track_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "track",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "track_id"
+            ],
+            "referencedColumns": [
+              "track_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "track",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`track_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `track_name` TEXT NOT NULL, `is_selected` INTEGER NOT NULL, `is_edit_mode` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "trackId",
+            "columnName": "track_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trackName",
+            "columnName": "track_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSelected",
+            "columnName": "is_selected",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEditMode",
+            "columnName": "is_edit_mode",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "track_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5d6c6cd12438e92bb7757b7d505d498d')"
+    ]
+  }
+}
